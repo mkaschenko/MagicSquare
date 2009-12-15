@@ -7,30 +7,25 @@ class InterfaceController < Rucola::RCController
   ib_action :copy_button
 
   def initialize
-    @magic_square = MagicSquare.new    
     @encoder = Encoder.new
     @printer = Printer.new
   end
 
-
-  # модуль магический квадрат, енкодер атрибуты на чтение мк и змк, encrypt(text) decrypt(text)
-
   def encrypt_button(sender)
-    text = @plain_text_field.stringValue
-    side_size = Math.sqrt(text.size).ceil
-    @m_square = @magic_square.create(side_size)
-    @printer.print_square(@first_information_multiline_label, @m_square)
-    filled_m_square = @encoder.encrypt(@m_square, text)
-    @printer.print_square(@second_information_multiline_label, filled_m_square)
-    @printer.print_text(@encrypted_text_field, filled_m_square)
+    plain_text = @plain_text_field.stringValue
+    encrypted_text = @encoder.encrypt(plain_text)
+    @printer.print_square(@first_information_multiline_label, @encoder.magic_square)
+    @printer.print_square(@second_information_multiline_label, @encoder.filled_magic_square)
+    @printer.print_text(@encrypted_text_field, encrypted_text)
     @printer.print_text(@message_label, "Текст зашифрован")
   end
 
   def decrypt_button(sender)
-    crypted_text = @encrypted_text_field.stringValue
-    decrypted_text = @encoder.decrypt(@m_square, crypted_text)
-    
-    @printer.print_text(@plain_text_field, decrypted_text)
+    encrypted_text = @encrypted_text_field.stringValue
+    plain_text = @encoder.decrypt(encrypted_text)
+    @printer.print_square(@first_information_multiline_label, @encoder.magic_square)
+    @printer.clear(@second_information_multiline_label)
+    @printer.print_text(@plain_text_field, plain_text)
     @printer.print_text(@message_label, "Текст дешифрован")
   end
 

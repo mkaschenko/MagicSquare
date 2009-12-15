@@ -1,7 +1,7 @@
 require "matrix"
 
-class MagicSquare
-  def create(side_size)
+module MagicSquare
+  def create_magic_square(side_size)
     side_size += 1 if side_size.even?
     square = Matrix.zero(side_size).to_a
     prepared_value_minus = (side_size - 1) / 2

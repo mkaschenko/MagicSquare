@@ -14,4 +14,8 @@ class Printer
     s = text.to_s
     interface_element.setStringValue(s)
   end
+  
+  def clear(interface_element)
+    interface_element.setStringValue("")
+  end
 end

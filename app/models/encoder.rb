@@ -1,20 +1,35 @@
 $KCODE = "utf-8"
 
 class Encoder
-  def encrypt(magic_square, text)
-    chars = text.chars.to_a
+  include MagicSquare
+  
+  attr_reader :magic_square, :filled_magic_square
+  
+  def encrypt(plain_text)
+    side_size = get_side_size(plain_text) 
+    @magic_square = create_magic_square(side_size)
+    chars = plain_text.chars.to_a
     chars.insert(0, nil)
-    magic_square.collect { |row| row.collect { |column| chars[column] } }
+    @filled_magic_square = @magic_square.collect { |row| row.collect { |column| chars[column] } }
+    @filled_magic_square.to_s
   end
 
-  def decrypt(magic_square, crypted_text)
+  def decrypt(crypted_text)
+    side_size = get_side_size(crypted_text)
+    @magic_square = create_magic_square(side_size)
     text_length = crypted_text.size
     chars = crypted_text.chars.to_a
     h = {}
     s = ""
-    a = magic_square.flatten.delete_if { |element| element > text_length }
+    a = @magic_square.flatten.delete_if { |element| element > text_length }
     a.each_with_index { |element, index| h[element] = chars[index] }
     h.keys.sort.each { |key| s << h[key] }
     s
+  end
+  
+  private
+
+  def get_side_size(text)
+    Math.sqrt(text.size).ceil
   end
 end
