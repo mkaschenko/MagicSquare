@@ -24,7 +24,7 @@ class InterfaceController < Rucola::RCController
     encrypted_text = @encrypted_text_field.stringValue
     plain_text = @encoder.decrypt(encrypted_text)
     @printer.print_square(@first_information_multiline_label, @encoder.magic_square)
-    @printer.clear(@second_information_multiline_label)
+    @printer.print_square(@second_information_multiline_label, @encoder.formated_magic_square)
     @printer.print_text(@plain_text_field, plain_text)
     @printer.print_text(@message_label, "Текст дешифрован")
   end
