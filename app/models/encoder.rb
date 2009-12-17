@@ -2,9 +2,9 @@ $KCODE = "utf-8"
 
 class Encoder
   include MagicSquare
-  
+
   attr_reader :magic_square, :filled_magic_square, :formated_magic_square
-  
+
   def encrypt(plain_text)
     side_size = get_side_size(plain_text) 
     @magic_square = create_magic_square(side_size)
@@ -27,7 +27,7 @@ class Encoder
     h.keys.sort.each { |key| s << h[key] }
     s
   end
-  
+
   private
 
   def get_side_size(text)
